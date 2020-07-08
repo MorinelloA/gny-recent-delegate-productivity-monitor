@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> 
+      
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
+    <script src="scripts.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>GNY Recent Delegate Productivity</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 id='status' class="display-6">GNY Recent Delegate Productivity</h1>
+    </div>
+    <center>
+        <button id="mainnet" class="btn btn-secondary btn-lg" onclick="alert('Mainnet not live yet')">Mainnet</button>
+        <button id="testnet" class="btn btn-secondary btn-lg" onclick="submit('testnet')">Testnet</button>
+    </center>
+    <div id="innerbody">
+        <div id="progress" class="progress" style="height:30px">
+            <div id="loading" class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%;height:30px">Loading</div>
+        </div>
+        <div id="data"></div>
+        <br />
+    </div>
+    <div class="card-footer text-white bg-dark text-center py-3 blue">
+        Developed by <a href="https://explorer.lisk.io/delegate/15297866638783057016L">TonyT908</a> - Source Code available at <a href="https://github.com/MorinelloA/lisk-last-forged-block/">Github.com</a>
+    </div>
+</body>
+</html>
