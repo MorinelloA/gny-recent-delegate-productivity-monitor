@@ -18,7 +18,7 @@ submit = async () => {
     let allBlocks = [];
     let blocks = [];
     
-    for(let i = 1005; i >= 105; i-=100)
+    for(let i = 1010; i >= 110; i-=100)
     {
         blocks.push(await(await fetch('https://testnet.gny.io/api/blocks?orderBy=height:asc&limit=100&offset=' + (currentHeight - blocksIntoLastRound - i))).json());
         percentComplete += 9;
@@ -45,13 +45,13 @@ submit = async () => {
     for(let i = 0; i < delegates.delegates.length; i++)
     {
         delegatesDict[delegates.delegates[i].publicKey] = delegates.delegates[i].username;
-        delegatesProductivity[delegates.delegates[i].username] = [false, false, false, false, false];
+        delegatesProductivity[delegates.delegates[i].username] = [false, false, false, false, false, false, false, false, false, false];
     }
 
     for(let j = 0; j < 10; j++){
         for(let i = 0; i < 101; i++){
             try{
-                delegatesProductivity[delegatesDict[allBlocks[i].delegate]][j] = true;
+                delegatesProductivity[delegatesDict[allBlocks[i + (101 * j)].delegate]][j] = true;
             }
             catch(e){
                 console.log(e);
