@@ -6,14 +6,20 @@ submit = async () => {
     document.getElementById("loading").style.width =  "0%";
     document.getElementById("progress").style.display = 'block';
 
-    const networkStatus = await(await fetch('https://testnet.gny.io/api/blocks/getHeight')).json();
+	const networkStatus = await(await fetch('https://testnet.gny.io/api/blocks?limit=1&orderBy=height:desc')).json();
     let percentComplete = 5;
     document.getElementById("loading").innerHTML = percentComplete + "%";
     document.getElementById("loading").style.width =  percentComplete + "%";
 
-    const currentHeight = networkStatus.height;
+    const currentHeight = networkStatus.blocks[0].height;
+	const lastBlockUnix = networkStatus.blocks[0].timestamp + 1542571200;
+	const lastBlockStr = new Date(lastBlockUnix * 1000).toLocaleString();
     const blocksIntoLastRound = currentHeight % 101;
     const previousRound = (currentHeight - blocksIntoLastRound) / 101;
+
+    const lastCalculatedBlock = await(await fetch('https://testnet.gny.io/api/blocks/getBlock?height=' + (currentHeight - blocksIntoLastRound))).json();
+    const lastCalculatedBlockUnix = lastCalculatedBlock.block.timestamp + 1542571200;
+	const lastCalculatedBlockStr = new Date(lastCalculatedBlockUnix * 1000).toLocaleString();
 
     let allBlocks = [];
     let blocks = [];
@@ -41,7 +47,7 @@ submit = async () => {
     document.getElementById("loading").style.width =  "99%";
 
     let delegatesDict = {};
-    let delegatesProductivity = {}
+    let delegatesProductivity = {};
     for(let i = 0; i < delegates.delegates.length; i++)
     {
         delegatesDict[delegates.delegates[i].publicKey] = delegates.delegates[i].username;
@@ -66,7 +72,7 @@ submit = async () => {
         for(let j = 0; j < blocks.length; j++)
         {
             if(delegatesProductivity[delegates.delegates[i].username][j]) 
-            circles.push('green'); 
+				circles.push('green'); 
         else 
             circles.push('red');
         }
@@ -123,6 +129,8 @@ submit = async () => {
         newCard += "</div>";
 
         document.getElementById("data").innerHTML += newCard;
+        document.getElementById("lastBlock").innerHTML = 'Most Recent Network Block: ' + lastBlockStr;
+        document.getElementById("lastCalc").innerHTML = 'Data Below Updated At: ' + lastCalculatedBlockStr;
     }
 
     $(function () {
