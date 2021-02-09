@@ -1,4 +1,7 @@
-submit = async () => {
+submit = async (net) => {
+    const urlPrefix = net == 'Mainnet' ? 'https://mainnet.gny.io' : 'https://testnet.gny.io';
+    document.getElementById("net").innerHTML = net;
+
     document.getElementById("mainnet").style.display = 'none';
     document.getElementById("testnet").style.display = 'none';
 
@@ -6,7 +9,7 @@ submit = async () => {
     document.getElementById("loading").style.width =  "0%";
     document.getElementById("progress").style.display = 'block';
 
-	const networkStatus = await(await fetch('https://testnet.gny.io/api/blocks?limit=1&orderBy=height:desc')).json();
+	const networkStatus = await(await fetch(urlPrefix + '/api/blocks?limit=1&orderBy=height:desc')).json();
     let percentComplete = 5;
     document.getElementById("loading").innerHTML = percentComplete + "%";
     document.getElementById("loading").style.width =  percentComplete + "%";
@@ -14,10 +17,10 @@ submit = async () => {
     const currentHeight = networkStatus.blocks[0].height;
 	const lastBlockUnix = networkStatus.blocks[0].timestamp + 1542571200;
 	const lastBlockStr = new Date(lastBlockUnix * 1000).toLocaleString();
-    const blocksIntoLastRound = currentHeight % 101;
+    const blocksIntoLastRound = currentHeight % 101 - 1;
     const previousRound = (currentHeight - blocksIntoLastRound) / 101;
 
-    const lastCalculatedBlock = await(await fetch('https://testnet.gny.io/api/blocks/getBlock?height=' + (currentHeight - blocksIntoLastRound))).json();
+    const lastCalculatedBlock = await(await fetch(urlPrefix + '/api/blocks/getBlock?height=' + (currentHeight - blocksIntoLastRound))).json();
     const lastCalculatedBlockUnix = lastCalculatedBlock.block.timestamp + 1542571200;
 	const lastCalculatedBlockStr = new Date(lastCalculatedBlockUnix * 1000).toLocaleString();
 
@@ -26,13 +29,13 @@ submit = async () => {
     
     for(let i = 1010; i >= 110; i-=100)
     {
-        blocks.push(await(await fetch('https://testnet.gny.io/api/blocks?orderBy=height:asc&limit=100&offset=' + (currentHeight - blocksIntoLastRound - i))).json());
+        blocks.push(await(await fetch(urlPrefix + '/api/blocks?orderBy=height:asc&limit=100&offset=' + (currentHeight - blocksIntoLastRound - i))).json());
         percentComplete += 9;
         document.getElementById("loading").innerHTML = percentComplete + "%";
         document.getElementById("loading").style.width =  percentComplete + "%";
     }
 
-    blocks.push(await(await fetch('https://testnet.gny.io/api/blocks?orderBy=height:asc&limit=10&offset=' + (currentHeight - blocksIntoLastRound - 10))).json());
+    blocks.push(await(await fetch(urlPrefix + '/api/blocks?orderBy=height:asc&limit=10&offset=' + (currentHeight - blocksIntoLastRound - 10))).json());
     document.getElementById("loading").innerHTML = "95%";
     document.getElementById("loading").style.width =  "95%";
     
@@ -42,7 +45,7 @@ submit = async () => {
             allBlocks.push(blocks[j].blocks[i]);
     }
 
-    let delegates = await(await fetch('https://testnet.gny.io/api/delegates?orderBy=rate:asc&limit=101')).json();
+    let delegates = await(await fetch(urlPrefix + '/api/delegates?orderBy=rate:asc&limit=101')).json();
     document.getElementById("loading").innerHTML = "99%";
     document.getElementById("loading").style.width =  "99%";
 

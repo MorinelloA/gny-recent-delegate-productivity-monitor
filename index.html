@@ -18,13 +18,14 @@
 <body>
     <div class="jumbotron">
         <h1 id='status' class="display-6">GNY Recent Delegate Productivity</h1>
+        <h2 id='net'></h2>
         <br/>
         <h3 id='lastBlock'></h2>
         <h3 id='lastCalc'></h2>
     </div>
     <center>
-        <button id="mainnet" class="btn btn-secondary btn-lg" onclick="alert('Mainnet not live yet')">Mainnet</button>
-        <button id="testnet" class="btn btn-secondary btn-lg" onclick="submit('testnet')">Testnet</button>
+        <button id="mainnet" class="btn btn-primary btn-lg" onclick="submit('Mainnet')">Mainnet</button>
+        <button id="testnet" class="btn btn-secondary btn-lg" onclick="submit('Testnet')">Testnet</button>
     </center>
     <div id="innerbody">
         <div id="progress" class="progress" style="height:30px">
