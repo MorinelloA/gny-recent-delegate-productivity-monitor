@@ -18,7 +18,8 @@ submit = async (net) => {
 	const lastBlockUnix = networkStatus.blocks[0].timestamp + 1542571200;
 	const lastBlockStr = new Date(lastBlockUnix * 1000).toLocaleString();
     const blocksIntoLastRound = currentHeight % 101 - 1;
-    const previousRound = (currentHeight - blocksIntoLastRound) / 101;
+	
+    const previousRound = (currentHeight - blocksIntoLastRound - 1) / 101;
 
     const lastCalculatedBlock = await(await fetch(urlPrefix + '/api/blocks/getBlock?height=' + (currentHeight - blocksIntoLastRound))).json();
     const lastCalculatedBlockUnix = lastCalculatedBlock.block.timestamp + 1542571200;
